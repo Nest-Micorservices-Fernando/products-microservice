@@ -8,15 +8,19 @@ async function bootstrap() {
 
   const logger = new Logger("Main");
 
+  console.log( envs.natsServers )
+
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
-      transport: Transport.TCP,
+      transport: Transport.NATS,
       options: {
-        port: envs.port,
+        servers: envs.natsServers ,
       },
     }
   );
+  console.log("Microservice NATS started");
+  console.log( envs.natsServers )
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -24,7 +28,8 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   })
 );
-  //await app.listen( envs.port );
+
+await app.listen( );
 
   logger.log(`Products Microservice is running on: ${ envs.port }`);
 }

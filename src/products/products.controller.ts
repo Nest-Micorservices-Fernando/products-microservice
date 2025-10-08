@@ -43,10 +43,10 @@ export class ProductsController {
   ) {
     return this.productsService.remove(id);
   }
-
-  //@Delete('logic/:id')
-  //logicremove(@Param('id', ParseIntPipe) id: number) {
-  //  return this.productsService.logic_remove(id);
-  //}
+  
+  @MessagePattern({ cmd: 'validate_products' })
+  validateProduct( @Payload() ids: number[] ) { 
+    return this.productsService.validateProducts( ids );
+  }
 
 }
